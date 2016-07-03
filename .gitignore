@@ -6,3 +6,4 @@ logs/*
 .classpath
 src/main/resources/config.properties
 src/main/resources/log4j.properties
+.java-version
