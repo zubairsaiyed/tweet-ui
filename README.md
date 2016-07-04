@@ -15,7 +15,7 @@ tweet-ui is a sub-module of the [TwtrTrkr project](https://github.com/zubairsaiy
 
 tweet-ui must first be configured with the Twitter API authentication credentials, Apache Zookeeper server details, Redis connection details, and a server port number via a configuration file at `src\main\resources\config.properties`.
 
-The web project can then be built using the 'mvn assembly:assembly' command. Finally the jar can be launched as follows:
+The web project can then be built using the `mvn assembly:assembly` command. Finally the jar can be launched as follows:
 
 ```
 mvn java -jar target/twitter-tracker-0.0.1-SNAPSHOT-jar-with-dependencies.jar
