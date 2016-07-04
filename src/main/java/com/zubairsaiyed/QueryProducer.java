@@ -3,9 +3,7 @@ package com.zubairsaiyed;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
 import org.apache.log4j.Logger;
-
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 

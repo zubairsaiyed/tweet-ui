@@ -3,7 +3,6 @@ package com.zubairsaiyed;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import spark.Request;
 import spark.Response;
 import spark.Route;
