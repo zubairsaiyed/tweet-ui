@@ -21,7 +21,7 @@ public class QueryProducer {
 		try (InputStream input = Main.class.getClassLoader().getResourceAsStream("config.properties")) {
     		prop.load(input);
     	} catch (IOException ex) {
-			logger.error("Unable to read configuration file! Make sure configuration parameters are defined.")
+			logger.error("Unable to read configuration file! Make sure configuration parameters are defined.");
     		ex.printStackTrace();
     	}
 
