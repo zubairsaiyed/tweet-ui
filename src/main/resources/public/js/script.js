@@ -1,10 +1,11 @@
 $(function() {
 
-	tracking = new Set();
-	refreshInterval = 1000;
-	timeout = null;
+    tracking = new Set();
+    refreshInterval = 1000;
+    timeout = null;
 
-    $(document).ready(function () {
+	// draw Highchart
+    $(document).ready(function() {
         Highcharts.setOptions({
             global: {
                 useUTC: false
@@ -13,7 +14,7 @@ $(function() {
 
         chart = new Highcharts.Chart({
             chart: {
-            	renderTo: 'container',
+                renderTo: 'container',
                 type: 'spline',
                 animation: Highcharts.svg, // don't animate in old IE
                 marginRight: 10
@@ -38,7 +39,7 @@ $(function() {
                 max: 1
             },
             tooltip: {
-                formatter: function () {
+                formatter: function() {
                     return '<b>' + this.series.name + '</b><br/>' +
                         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
                         Highcharts.numberFormat(this.y, 2);
@@ -60,55 +61,59 @@ $(function() {
             },
         });
     });
-	
-	
-	
-	
-	
-	$("#submitQuery").click(function (e) {
-		e.preventDefault();
-		var query = $("#inputSearchQuery").val().trim();
-		if (query.length > 0) {
-			$.post("/data/", query);
-			tracking.add(query);
-		}
-		$("#inputSearchQuery").val("");
-		if (timeout == null)
-			fetchData();
-	});
-	
-	$("#getData").click(function (e) {
-		e.preventDefault();
-		fetchData();
-	});
 
-	function fetchData() {
-		var url = "/data/?";
-		for (query of tracking) {
-			url += "q=" + encodeURI(query) + "&";
-		}
-		url.substring(0,url.length-1);
-		$.getJSON(url, function (data) {
-			var currTime = (new Date()).getTime();
-			$.each(data, function(index, query) {
-				// query.name & query.data;
-				if (query !== null && query.name !== null) {
-					var series = chart.get(query.name);
-					if (series === null) {
-						series = chart.addSeries({
-							name: query.name,
-							id: query.name
-						}, false);
-					}
-					if (query !== null && query.data <= 1) {
-						var shift = series.data.length > 100;
-						series.addPoint([currTime, query.data], false, shift);
-					}					
-				}
-			});
-			chart.redraw();
-		});
-		timeout = setTimeout(fetchData, refreshInterval);
-	}
-	
+	// submit user query
+    $("#submitQuery").click(function(e) {
+        e.preventDefault();
+        var query = $("#inputSearchQuery").val().trim();
+
+		// submit new query keyword using POST request, track query locally as well
+        if (query.length > 0) {
+            $.post("/data/", query);
+            tracking.add(query);
+        }
+
+		// reset query input
+        $("#inputSearchQuery").val("");
+
+		// initiate continous data retrieval
+        if (timeout == null)
+            fetchData();
+    });
+
+	// fetch data from server (continuously)
+    function fetchData() {
+
+		// generate GET url
+        var url = "/data/?";
+        for (query of tracking) {
+            url += "q=" + encodeURI(query) + "&";
+        }
+        url.substring(0, url.length - 1);
+        $.getJSON(url, function(data) {
+
+			// update Highchart with new data points
+            var currTime = (new Date()).getTime();
+            $.each(data, function(index, query) {
+                if (query !== null && query.name !== null) {
+                    var series = chart.get(query.name);
+                    if (series === null) {
+                        series = chart.addSeries({
+                            name: query.name,
+                            id: query.name
+                        }, false);
+                    }
+                    if (query !== null && query.data <= 1) {
+                        var shift = series.data.length > 100;
+                        series.addPoint([currTime, query.data], false, shift);
+                    }
+                }
+            });
+            chart.redraw();
+        });
+
+		// repeat GET request after 'refreshInterval'
+        timeout = setTimeout(fetchData, refreshInterval);
+    }
+
 });

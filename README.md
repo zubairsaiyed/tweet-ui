@@ -1,17 +1,17 @@
 # tweet-ui
 
-tweet-ui was designed to serve as an interface where user's can submit queries into the sentiment analyzer model and then view real-time aggregate sentiment time-series for those query keywords.
+tweet-ui is a sub-module of the [TwtrTrkr project](https://github.com/zubairsaiyed/TwtrTrkr). It is designed to serve as an interface where user's can submit queries into the sentiment analyzer model and then view real-time aggregate sentiment time-series for those query keywords.
 
 ## Requirements
 
-Apache Kafka 1.0.1
-Twitter Developer account (for API Key, Secret etc.)
-Apache Zookeeper (required for Kafka Query Producer)
-lettuce (Redis Asynch Java Client)
-Apache Maven
-Oracle JDK 1.8 (64 bit)
+* Apache Kafka 1.0.1
+* Twitter Developer account (for API Key, Secret etc.)
+* Apache Zookeeper (required for Kafka Query Producer)
+* lettuce (Redis Asynch Java Client)
+* Apache Maven
+* Oracle JDK 1.8 (64 bit)
 
-## Running
+## Launching the server
 
 tweet-ui must first be configured with the Twitter API authentication credentials, Apache Zookeeper server details, Redis connection details, and a server port number via a configuration file at `src\main\resources\config.properties`.
 
